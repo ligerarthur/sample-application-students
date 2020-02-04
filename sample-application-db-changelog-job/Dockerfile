@@ -1,12 +1,12 @@
   
 # Build
-FROM maven:3.6.3-jdk-11-slim AS myapp-build
+FROM maven:3.6.3-jdk-11-slim AS myapp-build2
 ENV MYAPP_HOME /opt/myapp
 WORKDIR $MYAPP_HOME
 
-COPY sample-application-db-changelog-job/pom.xml ./sample-application-db-changelog-job/pom.xml
+COPY sample-application-db-changelog-job ./sample-application-db-changelog-job
 COPY pom.xml ./pom.xml
-COPY sample-application-db-changelog-job/src ./src
+
 
 RUN mvn clean verify
 
@@ -14,7 +14,7 @@ RUN mvn clean verify
 FROM openjdk:11-jre-slim
 ENV MYAPP_HOME /opt/myapp
 WORKDIR $MYAPP_HOME
-COPY --from=myapp-build $MYAPP_HOME/target/*.jar $MYAPP_HOME/myapp.jar
+COPY --from=myapp-build2 $MYAPP_HOME/target/*.jar $MYAPP_HOME/myapp.jar
 
 EXPOSE 8080
 

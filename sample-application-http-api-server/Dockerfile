@@ -3,9 +3,9 @@ ENV MYAPP_HOME /opt/myapp
 WORKDIR $MYAPP_HOME
 
 
-COPY sample-application-http-api-server/pom.xml ./sample-application-http-api-server/pom.xml
+COPY sample-application-http-api-server ./sample-application-http-api-server
 COPY pom.xml ./pom.xml
-COPY sample-application-http-api-server/src ./src
+
 
 
 RUN mvn clean verify
