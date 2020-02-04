@@ -1,7 +1,6 @@
 langague: java
 
 script:
-  - mvn dependency:go-offline
   - mvn clean verify
 
 env:
