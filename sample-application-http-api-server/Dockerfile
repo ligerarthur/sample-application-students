@@ -8,7 +8,7 @@ COPY pom.xml ./pom.xml
 COPY sample-application-http-api-server/src ./src
 
 
-RUN mvn package -DskipTests
+RUN mvn clean verify
 
 # Run
 FROM openjdk:11-jre-slim

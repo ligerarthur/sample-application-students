@@ -8,7 +8,7 @@ COPY sample-application-db-changelog-job/pom.xml ./sample-application-db-changel
 COPY pom.xml ./pom.xml
 COPY sample-application-db-changelog-job/src ./src
 
-RUN mvn package -DskipTests
+RUN mvn clean verify
 
 # Run
 FROM openjdk:11-jre-slim
