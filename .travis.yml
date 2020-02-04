@@ -4,6 +4,17 @@ script:
   - mvn dependency:go-offline
   - mvn clean verify
 
+env:
+  global:
+    - secure: $DOCKER_PASS
+
+services:
+  - docker
+
+before_install:
+  - docker login --username arthurliger
+  - echo "$"
+
 cache:
   directories:
     - $HOME/.m2
