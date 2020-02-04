@@ -1,7 +1,26 @@
 langague: java
 
-script:
-  - mvn clean verify
+
+
+jobs:
+  include:
+    - stage: "Test & Build"
+      name: "Test et build"
+      script: 
+      - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=ligerarthur_sample-application-students
+      - mvn clean verify
+      - mvn package -Dskiptest
+      - docker build -t arthurliger/devops:api sample-application-http-api-server
+      - docker build -t arthurliger/devops:db_changelog sample-application-db-changelog-job
+    - stage: "Deploy"
+      name: "Déploiement"
+      script: 
+      - echo "$DOCKERHUB_PASS" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker push arthurliger/devops:api
+      - docker push arthurliger/devops:db_changelog
+
+
+ 
 
 env:
   global:
@@ -10,14 +29,7 @@ env:
 services:
   - docker
 
-before_install:
-  - mvn clean verify
-  - mvn package -Dskiptest
-  - echo "$DOCKERHUB_PASS" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker build -t arthurliger/devops:api sample-application-http-api-server
-  - docker build -t arthurliger/devops:db_changelog sample-application-db-changelog-job
-  - docker push arthurliger/devops:api
-  - docker push arthurliger/devops:db_changelog
+
 
 
 addons:
@@ -25,12 +37,10 @@ addons:
     organization: "ligerarthur" # the key of the org you chose at step #3
     token:
       secure: $SONARCLOUD_PASS # encrypted value of your token
-script:
-  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=ligerarthur_sample-application-students
 
 
-  
+
+
 
 cache:
   directories:
