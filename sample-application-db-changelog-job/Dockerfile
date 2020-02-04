@@ -4,7 +4,7 @@ FROM maven:3.6.3-jdk-11-slim AS myapp-build
 ENV MYAPP_HOME /opt/myapp
 WORKDIR $MYAPP_HOME
 COPY pom.xml .
-RUN mvn dependency:go-offline
+
 
 COPY src ./src
 RUN mvn package -DskipTests
