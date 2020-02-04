@@ -13,7 +13,7 @@ services:
 
 before_install:
   - docker login --username arthurliger
-  - echo "$DOCKER_PASS"
+  - echo "$DOCKERHUB_PASS"
 
 cache:
   directories:
