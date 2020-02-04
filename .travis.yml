@@ -1,1 +1,9 @@
+langague: java
 
+script:
+  - mvn dependency:go-offline
+  - mvn clean verify
+
+cache:
+  directories:
+    - $HOME/.m2
