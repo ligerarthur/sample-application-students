@@ -13,8 +13,8 @@ services:
 before_install:
   - mvn clean verify
   - mvn package -Dskiptest
-  - docker build -t api -f sample-application-db-changelog-job/Dockerfile .
-  - docker build -t db_changelog -f sample-application-http-api-server/Dockerfile .
+  - docker build -t api sample-application-http-api-server
+  - docker build -t db_changelog sample-application-db-changelog-job
 
   #- echo "$DOCKERHUB_PASS" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
