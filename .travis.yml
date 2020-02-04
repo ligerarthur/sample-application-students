@@ -12,8 +12,12 @@ services:
   - docker
 
 before_install:
-  - echo "$DOCKERHUB_PASS" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  
+  - docker build -t api
+  - docker build -t db_changelog
+  - docker run -it api
+  - docker run -it db_changelog
+  #- echo "$DOCKERHUB_PASS" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
 cache:
   directories:
     - $HOME/.m2
