@@ -12,8 +12,8 @@ services:
   - docker
 
 before_install:
-  - echo ${DOCKERHUB_PASSWORD} | docker login -u arthurliger --password-stdin
-
+  - echo "$DOCKERHUB_PASS" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  
 cache:
   directories:
     - $HOME/.m2
