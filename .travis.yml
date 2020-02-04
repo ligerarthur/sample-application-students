@@ -13,14 +13,13 @@ services:
 before_install:
   - mvn clean verify
   - mvn package -Dskiptest
-  - docker build -t api sample-application-http-api-server
-  - docker build -t db_changelog sample-application-db-changelog-job
+  - echo "$DOCKERHUB_PASS" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t arthurliger/devops:api sample-application-http-api-server
+  - docker build -t arthurliger/devops:db_changelog sample-application-db-changelog-job
+  - docker push arthurliger/devops:api
+  - docker push arthurliger/devops:db_changelog
 
-deploy:
-  provider: script
-  script: bash docker_push
-  on:
-    branch: develop
+
 
 cache:
   directories:
