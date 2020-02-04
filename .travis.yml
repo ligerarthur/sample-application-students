@@ -1,35 +1,26 @@
 langague: java
 
-
-
 jobs:
   include:
-    - stage: "Test & Build"
-      name: "Test et build"
+    - stage: "Test"
+      name: "Test "
       script: 
       - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=ligerarthur_sample-application-students
+
+    - stage: "Deploy"
+      name: "Déploiement"
+      script: 
       - mvn clean verify
       - mvn package -Dskiptest
       - docker build -t arthurliger/devops:api sample-application-http-api-server
       - docker build -t arthurliger/devops:db_changelog sample-application-db-changelog-job
-    - stage: "Deploy"
-      name: "Déploiement"
-      script: 
       - echo "$DOCKERHUB_PASS" | docker login -u "$DOCKER_USERNAME" --password-stdin
       - docker push arthurliger/devops:api
       - docker push arthurliger/devops:db_changelog
 
 
- 
-
-env:
-  global:
-    - secure: $DOCKER_PASS
-
 services:
   - docker
-
-
 
 
 addons:
